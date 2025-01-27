@@ -1,7 +1,7 @@
 use anchor_lang::{
     err,
     prelude::{AccountLoader, Context},
-    Bumps, Result,
+    Bumps, Result
 };
 
 use crate::{state::LendingMarket, LendingError};

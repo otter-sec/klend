@@ -9,6 +9,8 @@ use anchor_lang::{
 
 use crate::utils::CPI_WHITELISTED_ACCOUNTS;
 
+type ProgramError = solana_program::error::Error;
+
 pub trait InstructionLoader {
     fn load_instruction_at(&self, index: usize) -> std::result::Result<Instruction, ProgramError>;
 

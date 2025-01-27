@@ -1,5 +1,5 @@
 use anchor_lang::{
-    prelude::{AccountInfo, CpiContext},
+    prelude::{AccountInfo, CpiContext, Error},
     Result,
 };
 

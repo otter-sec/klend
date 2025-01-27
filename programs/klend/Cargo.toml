@@ -17,8 +17,9 @@ no-idl = []
 no-log-ix-name = []
 cpi = ["no-entrypoint"]
 default = []
-serde = ["dep:serde", "fixed/serde-str"]
+# serde = ["dep:serde", "fixed/serde-str"]
 staging = []
+kani = ["anchor-lang/kani", "anchor-spl/kani"]
 idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 serialize_caps_interval_values = []
 
@@ -26,35 +27,35 @@ serialize_caps_interval_values = []
 anchor-lang.workspace = true
 anchor-spl.workspace = true
 solana-program.workspace = true
-solana-security-txt = "1.1.1"
+# solana-security-txt = "1.1.1"
 
 # Override anchor to use borsh with the const-generics feature
 # Allows to borsh serialize arrays of any length
-borsh.workspace = true
+# borsh.workspace = true
 bytemuck.workspace = true
 
-switchboard-itf = { git = "https://github.com/Kamino-Finance/scope.git", branch = "anchor_0.29_idl", features = [
-    "no-entrypoint",
-] }
-scope = { git = "https://github.com/Kamino-Finance/scope.git", package = "scope-types", branch = "anchor_0.29_idl" }
-pyth-sdk-solana = "0.9.0"
+# switchboard-itf = { git = "https://github.com/Kamino-Finance/scope.git", branch = "anchor_0.29_idl", features = [
+#     "no-entrypoint",
+# ] }
+# scope = { git = "https://github.com/Kamino-Finance/scope.git", package = "scope-types", branch = "anchor_0.29_idl" }
+# pyth-sdk-solana = "0.9.0"
 
-farms = { git = "https://github.com/Kamino-Finance/kfarms.git", features = ["no-entrypoint"] }
+# farms = { git = "https://github.com/Kamino-Finance/kfarms.git", features = ["no-entrypoint"] }
 
 
-derivative = "2.2.0"
-num_enum = "0.7.0"
-strum = { git = "https://github.com/hubbleprotocol/strum", features = ["derive"], branch = "checked_arithmetics" }
+# derivative = "2.2.0"
+# num_enum = "0.7.0"
+# strum = { git = "https://github.com/hubbleprotocol/strum", features = ["derive"], branch = "checked_arithmetics" }
 
-static_assertions = "1.1.0"
+# static_assertions = "1.1.0"
 
-derive_builder = "0.13.0"
+# derive_builder = "0.13.0"
 
-fixed = { version = "1.23.1" }
-fixed-macro = "1.1"
-uint = "0.9.5"
+# fixed = { version = "1.23.1" }
+# fixed-macro = "1.1"
+# uint = "0.9.5"
 
-# Only required when serializing to market config to JSON and in tests
-serde = { workspace = true, optional = true }
+# # Only required when serializing to market config to JSON and in tests
+# serde = { workspace = true, optional = true }
 
-bitflags = "2.4.1"
+# bitflags = "2.4.1"

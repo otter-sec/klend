@@ -13,25 +13,25 @@ overflow-checks = true
 
 [workspace.dependencies]
 # Anchor
-anchor-lang = { version = "0.29.0" }
-anchor-client = { version = "0.29.0" }
-anchor-spl = { version = "0.29.0", features = ["dex", "token"] }
+anchor-lang = { package = "onchor", path = "/Users/swaroopmaddu/workspace/osec/Development/2025/solana-verify/anchor" }
+anchor-spl = { package = "onchor_spl", path = "/Users/swaroopmaddu/workspace/osec/Development/2025/solana-verify/anchor_spl", features = ["dex", "token"]  }
+# anchor-client = { version = "0.29.0" }
+#
 
 # Solana
-solana-program = "~1.17.18"
-solana-sdk = "~1.17.18"
-solana-banks-client = "~1.17.18"
-solana-banks-interface = "~1.17.18"
-solana-address-lookup-table-program = "~1.17.18"
-solana-account-decoder = "~1.17.18"
-spl-token = { version = "3.5.0", features = ["no-entrypoint"] }
-spl-associated-token-account = { version = "1.1.3", features = ["no-entrypoint"] }
+solana-program = { package = "otter-solana-program", path = "/Users/swaroopmaddu/workspace/osec/Development/2025/solana-verify/program" }
+# solana-sdk = "~1.17.18"
+# solana-banks-client = "~1.17.18"
+# solana-banks-interface = "~1.17.18"
+# solana-account-decoder = "~1.17.18"
+# spl-token = { version = "3.5.0", features = ["no-entrypoint"] }
+# spl-associated-token-account = { version = "1.1.3", features = ["no-entrypoint"] }
 
 # Serialization/Deserialization
 # Override anchor to use borsh with the const-generics feature
 # Allows to borsh serialize arrays of any length
-borsh = { version = "0.10.3", features = ["const-generics"] }
+# borsh = { version = "0.10.3", features = ["const-generics"] }
 bytemuck = { version = "1.4.0", features = ["min_const_generics", "derive"] }
 
-serde = { version = "1.0.136", features = ["derive"] }
-serde_json = "1.0.79"
+# serde = { version = "1.0.136", features = ["derive"] }
+# serde_json = "1.0.79"

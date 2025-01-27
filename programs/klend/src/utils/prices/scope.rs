@@ -8,9 +8,7 @@ use super::{
     utils::price_to_fraction,
 };
 use crate::{
-    dbg_msg,
-    utils::{prices::Price, MAX_PRICE_DECIMALS_U256, NULL_PUBKEY, TARGET_PRICE_DECIMALS, U256},
-    LendingError, Result, ScopeConfiguration,
+    dbg_msg, scope, utils::{prices::Price, MAX_PRICE_DECIMALS_U256, NULL_PUBKEY, TARGET_PRICE_DECIMALS, U256}, LendingError, Result, ScopeConfiguration
 };
 
 pub(super) fn get_scope_price_and_twap(

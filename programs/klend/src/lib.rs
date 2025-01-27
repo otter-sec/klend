@@ -6,29 +6,31 @@ mod handlers;
 pub mod lending_market;
 pub mod state;
 pub mod utils;
+pub mod scope;
 
 pub use lending_market::lending_operations::utils::validate_reserve_config;
+pub use anchor_lang::prelude::Error;
 use utils::constraints::emergency_mode_disabled;
 
 use crate::handlers::*;
 pub use crate::{state::*, utils::fraction};
 
-#[cfg(feature = "staging")]
-declare_id!("SLendK7ySfcEzyaFqy93gDnD3RtrpXJcnRwb6zFHJSh");
+// #[cfg(feature = "staging")]
+// declare_id!("SLendK7ySfcEzyaFqy93gDnD3RtrpXJcnRwb6zFHJSh");
 
-#[cfg(not(feature = "staging"))]
+// #[cfg(not(feature = "staging"))]
 declare_id!("KLend2g3cP87fffoy8q1mQqGKjrxjC8boSyAYavgmjD");
 
-#[cfg(not(feature = "no-entrypoint"))]
-solana_security_txt::security_txt! {
-    name: "Kamino Lending",
-    project_url: "https://kamino.finance/",
-    contacts: "email:security@kamino.finance",
-    policy: "https://github.com/Kamino-Finance/audits/blob/master/docs/SECURITY.md",
+// #[cfg(not(feature = "no-entrypoint"))]
+// solana_security_txt::security_txt! {
+//     name: "Kamino Lending",
+//     project_url: "https://kamino.finance/",
+//     contacts: "email:security@kamino.finance",
+//     policy: "https://github.com/Kamino-Finance/audits/blob/master/docs/SECURITY.md",
 
-       preferred_languages: "en",
-    auditors: "OtterSec, Offside Labs"
-}
+//        preferred_languages: "en",
+//     auditors: "OtterSec, Offside Labs"
+// }
 
 #[program]
 pub mod kamino_lending {
