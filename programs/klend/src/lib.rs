@@ -7,6 +7,7 @@ pub mod lending_market;
 pub mod state;
 pub mod utils;
 pub mod scope;
+pub mod farms;
 
 pub use lending_market::lending_operations::utils::validate_reserve_config;
 pub use anchor_lang::prelude::Error;
