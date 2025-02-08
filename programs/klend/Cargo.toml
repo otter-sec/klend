@@ -58,4 +58,4 @@ uint = "0.9.5"
 # # Only required when serializing to market config to JSON and in tests
 # serde = { workspace = true, optional = true }
 
-# bitflags = "2.4.1"
+bitflags = "2.4.1"

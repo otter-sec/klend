@@ -1,4 +1,5 @@
 use anchor_lang::prelude::Pubkey;
+use solana_program::pubkey;
 
 
 pub const PROGRAM_ID:Pubkey = pubkey!("HFn8GnPADiny6XqUoWE8uRPPxb29ikn4yTuPa9MF2fWJ");

@@ -5,13 +5,11 @@ use anchor_lang::{
 };
 
 use crate::{
-    gen_signer_seeds,
-    handlers::{
+    farms, gen_signer_seeds, handlers::{
         handler_init_farms_for_reserve::InitFarmsForReserve,
         handler_init_obligation_farms_for_reserve::InitObligationFarmsForReserve,
         handler_refresh_obligation_farms_for_reserve::RefreshObligationFarmsForReserve,
-    },
-    Reserve, ReserveFarmKind,
+    }, Reserve, ReserveFarmKind
 };
 
 pub fn cpi_initialize_farm_delegated(ctx: &Context<InitFarmsForReserve>) -> Result<()> {
