@@ -19,6 +19,7 @@ cpi = ["no-entrypoint"]
 default = []
 serde = ["dep:serde", "fixed/serde-str"]
 staging = []
+kani = ["anchor-lang/kani", "anchor-spl/kani"]
 idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 tracing = ["dep:tracing"]
 serialize_caps_interval_values = []
@@ -27,29 +28,29 @@ serialize_caps_interval_values = []
 anchor-lang.workspace = true
 anchor-spl.workspace = true
 solana-program.workspace = true
-solana-security-txt = "1.1.1"
+# solana-security-txt = "1.1.1"
 
 # Override anchor to use borsh with the const-generics feature
 # Allows to borsh serialize arrays of any length
 borsh.workspace = true
 bytemuck.workspace = true
 
-sbod-itf = { git = "https://github.com/Kamino-Finance/scope.git", features = ["no-entrypoint"] }
-scope = { git = "https://github.com/Kamino-Finance/scope.git", package = "scope-types" }
-pyth-solana-receiver-sdk = "0.3.1"
+# sbod-itf = { git = "https://github.com/Kamino-Finance/scope.git", features = ["no-entrypoint"] }
+# scope = { git = "https://github.com/Kamino-Finance/scope.git", package = "scope-types" }
+# pyth-solana-receiver-sdk = "0.3.1"
 
-farms = { git = "https://github.com/Kamino-Finance/kfarms.git", features = ["no-entrypoint"] }
+# farms = { git = "https://github.com/Kamino-Finance/kfarms.git", features = ["no-entrypoint"] }
 
 derivative = "2.2.0"
 num_enum = "0.7.0"
-strum = { git = "https://github.com/Kamino-Finance/strum", features = ["derive"], branch = "checked_arithmetics" }
+# strum = { git = "https://github.com/Kamino-Finance/strum", features = ["derive"], branch = "checked_arithmetics" }
 
 static_assertions = "1.1.0"
 
 derive_builder = "0.13.0"
 
-fixed = { version = "1.23.1" }
-fixed-macro = "1.1"
+fixed = { version = "1.0.0" }
+fixed-macro = "1.0"
 uint = "0.9.5"
 bitflags = "2.4.1"
 
