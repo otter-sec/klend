@@ -12,9 +12,9 @@ use crate::{
     LendingError,
 };
 
-static_assertions::const_assert_eq!(TOKEN_INFO_SIZE, std::mem::size_of::<TokenInfo>());
-static_assertions::const_assert_eq!(0, std::mem::size_of::<TokenInfo>() % 8);
-#[derive(BorshDeserialize, BorshSerialize, PartialEq, Eq, Default)]
+// static_assertions::const_assert_eq!(TOKEN_INFO_SIZE, std::mem::size_of::<TokenInfo>());
+// static_assertions::const_assert_eq!(0, std::mem::size_of::<TokenInfo>() % 8);
+#[derive(PartialEq, Eq, Default, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 #[zero_copy]
@@ -170,7 +170,7 @@ impl TokenInfo {
     }
 }
 
-#[derive(BorshDeserialize, BorshSerialize, Debug, PartialEq, Eq, Default)]
+#[derive(Debug, PartialEq, Eq, Default, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 #[zero_copy]
@@ -181,7 +181,7 @@ pub struct PriceHeuristic {
     pub exp: u64,
 }
 
-#[derive(BorshDeserialize, BorshSerialize, Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 #[zero_copy]
@@ -220,7 +220,7 @@ impl ScopeConfiguration {
     }
 }
 
-#[derive(BorshDeserialize, BorshSerialize, Debug, PartialEq, Eq, Default)]
+#[derive(Debug, PartialEq, Eq, Default, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 #[zero_copy]
@@ -242,7 +242,7 @@ impl SwitchboardConfiguration {
     }
 }
 
-#[derive(BorshDeserialize, BorshSerialize, Debug, PartialEq, Eq, Default)]
+#[derive(Debug, PartialEq, Eq, Default, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[zero_copy]
 #[repr(transparent)]

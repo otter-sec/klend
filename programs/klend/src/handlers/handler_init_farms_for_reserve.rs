@@ -1,5 +1,5 @@
 use anchor_lang::{prelude::*, Accounts};
-use farms::program::Farms;
+// use farms::program::Farms;
 
 use crate::{
     lending_market::farms_ixs,
@@ -44,7 +44,7 @@ pub struct InitFarmsForReserve<'info> {
     )]
     pub reserve: AccountLoader<'info, Reserve>,
 
-    pub farms_program: Program<'info, Farms>,
+    pub farms_program: AccountInfo<'info>,
     pub farms_global_config: AccountInfo<'info>,
 
     #[account(mut)]

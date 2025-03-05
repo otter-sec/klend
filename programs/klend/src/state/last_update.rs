@@ -45,7 +45,7 @@ impl PriceStatusFlags {
         .union(PriceStatusFlags::PRICE_USAGE_ALLOWED);
 }
 
-#[derive(BorshDeserialize, BorshSerialize, Debug)]
+#[derive(Debug, Clone, Copy, Eq)]
 #[zero_copy]
 #[repr(C)]
 pub struct LastUpdate {

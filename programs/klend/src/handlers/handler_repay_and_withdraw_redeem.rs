@@ -1,4 +1,4 @@
-use anchor_lang::{prelude::*, Accounts};
+use anchor_lang::{context::FakeBumps, prelude::*, Accounts};
 
 use crate::{
     handler_refresh_obligation,
@@ -9,7 +9,7 @@ use crate::{
     refresh_farms,
     utils::seeds::pda,
     LendingError, LtvMaxWithdrawalCheck, MaxReservesAsCollateralCheck, RefreshObligation,
-    RefreshObligationBumps, ReserveFarmKind,
+    ReserveFarmKind,
 };
 
 pub fn process(
@@ -144,7 +144,7 @@ fn process_impl(
                 lending_market: repay_accounts.lending_market.clone(),
             },
             remaining_accounts: remaining_accounts.as_slice(),
-            bumps: RefreshObligationBumps {},
+            bumps: FakeBumps {},
         };
 
         handler_refresh_obligation::process(
@@ -207,7 +207,7 @@ fn process_impl(
                 lending_market: repay_accounts.lending_market.clone(),
             },
             remaining_accounts: remaining_accounts_post_withdrawal.as_slice(),
-            bumps: RefreshObligationBumps {},
+            bumps: FakeBumps {},
         };
 
         handler_refresh_obligation::process(
@@ -241,5 +241,5 @@ pub struct RepayAndWithdraw<'info> {
     pub withdraw_accounts: WithdrawObligationCollateralAndRedeemReserveCollateral<'info>,
     pub collateral_farms_accounts: OptionalObligationFarmsAccounts<'info>,
     pub debt_farms_accounts: OptionalObligationFarmsAccounts<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

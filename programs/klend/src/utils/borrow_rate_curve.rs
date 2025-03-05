@@ -6,7 +6,7 @@ use crate::{utils::Fraction, LendingError};
 
 pub const MAX_UTILIZATION_RATE_BPS: u32 = FULL_BPS as u32;
 
-#[derive(BorshDeserialize, BorshSerialize, Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 #[zero_copy]
 #[repr(C)]
 pub struct BorrowRateCurve {
@@ -60,7 +60,7 @@ pub struct CurveSegment {
     pub start_point: CurvePoint,
 }
 
-#[derive(BorshSerialize, BorshDeserialize, Debug, Default, PartialEq, Eq)]
+#[derive(Debug, Default, PartialEq, Eq, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 #[zero_copy]

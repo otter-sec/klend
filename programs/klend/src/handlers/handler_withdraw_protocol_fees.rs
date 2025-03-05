@@ -74,17 +74,17 @@ pub struct WithdrawProtocolFees<'info> {
     pub token_program: Interface<'info, TokenInterface>,
 }
 
-impl Clone for crate::accounts::WithdrawProtocolFees {
-    fn clone(&self) -> Self {
-        Self {
-            lending_market_owner: self.lending_market_owner,
-            lending_market: self.lending_market,
-            reserve: self.reserve,
-            reserve_liquidity_mint: self.reserve_liquidity_mint,
-            lending_market_authority: self.lending_market_authority,
-            fee_vault: self.fee_vault,
-            lending_market_owner_ata: self.lending_market_owner_ata,
-            token_program: self.token_program,
-        }
-    }
-}
+// impl Clone for crate::accounts::WithdrawProtocolFees {
+//     fn clone(&self) -> Self {
+//         Self {
+//             lending_market_owner: self.lending_market_owner,
+//             lending_market: self.lending_market,
+//             reserve: self.reserve,
+//             reserve_liquidity_mint: self.reserve_liquidity_mint,
+//             lending_market_authority: self.lending_market_authority,
+//             fee_vault: self.fee_vault,
+//             lending_market_owner_ata: self.lending_market_owner_ata,
+//             token_program: self.token_program,
+//         }
+//     }
+// }

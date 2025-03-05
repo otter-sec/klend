@@ -159,7 +159,7 @@ pub fn get_liquidation_params(
     ) {
         if !is_debt_reserve_highest_borrow_factor {
             xmsg!("Debt reserve is not the highest borrow factor reserve, obligation cannot be liquidated");
-            return err!(LendingError::LiquidationBorrowFactorPriority,);
+            return err!(LendingError::LiquidationBorrowFactorPriority);
         }
 
         if !is_collateral_reserve_lowest_liquidation_ltv {

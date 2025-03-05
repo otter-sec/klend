@@ -71,7 +71,35 @@ pub(super) struct TimestampedPrice {
     pub timestamp: u64,
 }
 
+#[derive(Default)]
 pub(super) struct TimestampedPriceWithTwap {
     pub price: TimestampedPrice,
     pub twap: Option<TimestampedPrice>,
+}
+
+impl Default for TimestampedPrice {
+    fn default() -> Self {
+        Self {
+            price_load: Box::new(|| Ok(Fraction::default())),
+            timestamp: 0,
+        }
+    }
+}
+
+impl Arbitrary for TimestampedPrice {
+    fn any() -> Self {
+        Self {
+            price_load: Box::new(|| Ok(Fraction::default())),
+            timestamp: kani::any(),
+        }
+    }
+}
+
+impl Arbitrary for TimestampedPriceWithTwap {
+    fn any() -> Self {
+        Self {
+            price: TimestampedPrice::any(),
+            twap: kani::any(),
+        }
+    }
 }

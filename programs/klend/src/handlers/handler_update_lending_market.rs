@@ -94,7 +94,7 @@ pub fn process(
         }
         UpdateLendingMarketMode::UpdateRiskCouncil => {
             let value: [u8; 32] = value[0..32].try_into().unwrap();
-            let value = Pubkey::from(value);
+            let value = Pubkey::new_from_array(value);
             msg!("Prv value is {:?}", market.risk_council);
             msg!("New value is {:?}", value);
             market.risk_council = value;

@@ -1,5 +1,5 @@
 use anchor_lang::{prelude::*, Accounts};
-use farms::{program::Farms, state::UserState as FarmsUserState};
+use crate::farms::state::UserState as FarmsUserState;
 
 use crate::{
     fraction::FractionExtra,
@@ -80,7 +80,7 @@ pub struct RefreshObligationFarmsForReserve<'info> {
 
     pub base_accounts: RefreshObligationFarmsForReserveBase<'info>,
 
-    pub farms_program: Program<'info, Farms>,
+    pub farms_program: AccountInfo<'info>,
     pub rent: Sysvar<'info, Rent>,
     pub system_program: Program<'info, System>,
 }

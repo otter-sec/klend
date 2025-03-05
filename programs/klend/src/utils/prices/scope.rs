@@ -1,6 +1,6 @@
-use std::{cell::Ref, convert::TryInto};
+use std::{cell::{Ref, RefCell}, convert::TryInto};
 
-use anchor_lang::{__private::bytemuck, prelude::*, Discriminator};
+use anchor_lang::{prelude::*, Discriminator};
 pub use scope::OraclePrices as ScopePrices;
 
 use super::{
@@ -8,11 +8,12 @@ use super::{
     utils::price_to_fraction,
 };
 use crate::{
-    dbg_msg,
+    scope, dbg_msg,
     utils::{prices::Price, MAX_PRICE_DECIMALS_U256, NULL_PUBKEY, TARGET_PRICE_DECIMALS, U256},
     LendingError, Result, ScopeConfiguration,
 };
 
+#[stub(TimestampedPriceWithTwap::default())]
 pub(super) fn get_scope_price_and_twap(
     scope_price_account: &AccountInfo,
     conf: &ScopeConfiguration,
@@ -51,6 +52,7 @@ impl From<Price<u64>> for scope::Price {
     }
 }
 
+#[stub(RefCell::new(ScopePrices::default()).borrow())]
 fn get_price_account<'a>(scope_price_account: &'a AccountInfo) -> Result<Ref<'a, ScopePrices>> {
     if *scope_price_account.key == NULL_PUBKEY {
         return Err(LendingError::InvalidOracleConfig.into());
@@ -62,10 +64,9 @@ fn get_price_account<'a>(scope_price_account: &'a AccountInfo) -> Result<Ref<'a,
     if disc_bytes != ScopePrices::discriminator() {
         return Err(LendingError::CouldNotDeserializeScope.into());
     }
-
     Ok(Ref::map(data, |data| bytemuck::from_bytes(&data[8..])))
 }
-
+#[stub(TimestampedPrice::default())]
 fn get_price_usd(
     scope_prices: &ScopePrices,
     tokens_chain: ScopeConversionChain,

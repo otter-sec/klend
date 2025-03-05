@@ -807,10 +807,11 @@ where
     if allowed_borrow_value < borrow_factor_adjusted_debt_value {
         msg!("The obligation is not healthy enough to support the new elevation group");
         return Err(
-            error!(LendingError::UnhealthyElevationGroupLtv).with_values((
-                allowed_borrow_value.to_display(),
-                borrow_factor_adjusted_debt_value.to_display(),
-            )),
+            error!(LendingError::UnhealthyElevationGroupLtv)
+            // .with_values((
+            //     allowed_borrow_value.to_display(),
+            //     borrow_factor_adjusted_debt_value.to_display(),
+            // )),
         );
     }
 
@@ -1835,7 +1836,9 @@ pub fn withdraw_referrer_fees(
     Ok(withdraw_amount)
 }
 
+#[helper_fn]
 pub fn update_reserve_config(reserve: &mut Reserve, mode: UpdateConfigMode, value: &[u8]) {
+    #[verify_ignore]
     match mode {
         UpdateConfigMode::UpdateLoanToValuePct => {
             let new = value[0];

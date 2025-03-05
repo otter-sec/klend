@@ -158,5 +158,5 @@ pub struct RepayObligationLiquidityV2<'info> {
         bump = repay_accounts.lending_market.load()?.bump_seed as u8,
     )]
     pub lending_market_authority: AccountInfo<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

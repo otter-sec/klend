@@ -1,10 +1,10 @@
 use anchor_lang::{
     prelude::{AccountLoader, Signer},
-    AccountsClose, Owner, Result, ToAccountInfo, ZeroCopy,
+    AccountsClose, Owner, Result, ToAccountInfo,
 };
 use solana_program::msg;
 
-pub fn close_account_loader<'info, T: ZeroCopy + Owner>(
+pub fn close_account_loader<'info, T: Owner>(
     close_account: bool,
     owner: &Signer<'info>,
     account_to_be_closed: &AccountLoader<'info, T>,

@@ -1,4 +1,4 @@
-use anchor_lang::{prelude::*, Accounts};
+use anchor_lang::{context::FakeBumps, prelude::*, Accounts};
 
 use crate::{
     handler_deposit_reserve_liquidity_and_obligation_collateral::{self, *},
@@ -7,7 +7,7 @@ use crate::{
     handler_withdraw_obligation_collateral_and_redeem_reserve_collateral::{self, *},
     lending_market::lending_operations,
     refresh_farms, LendingError, LtvMaxWithdrawalCheck, MaxReservesAsCollateralCheck,
-    RefreshObligation, RefreshObligationBumps, ReserveFarmKind,
+    RefreshObligation, ReserveFarmKind,
 };
 
 pub fn process(
@@ -51,7 +51,7 @@ pub fn process(
                 lending_market: ctx.accounts.deposit_accounts.lending_market.clone(),
             },
             remaining_accounts: ctx.remaining_accounts,
-            bumps: RefreshObligationBumps {},
+            bumps: FakeBumps {},
         };
 
         handler_refresh_obligation::process(
@@ -108,7 +108,7 @@ pub fn process(
                 })
                 .collect()
         } else {
-            ctx.remaining_accounts.to_vec()
+            ctx.remaining_accounts.to_vec().into()
         };
 
         let refresh_obligation_ctx = Context {
@@ -118,7 +118,7 @@ pub fn process(
                 lending_market: ctx.accounts.deposit_accounts.lending_market.clone(),
             },
             remaining_accounts: remaining_accounts.as_slice(),
-            bumps: RefreshObligationBumps {},
+            bumps: FakeBumps {},
         };
 
         handler_refresh_obligation::process(
@@ -171,5 +171,5 @@ pub struct DepositAndWithdraw<'info> {
     pub withdraw_accounts: WithdrawObligationCollateralAndRedeemReserveCollateral<'info>,
     pub deposit_farms_accounts: OptionalObligationFarmsAccounts<'info>,
     pub withdraw_farms_accounts: OptionalObligationFarmsAccounts<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

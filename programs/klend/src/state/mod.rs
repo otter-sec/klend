@@ -16,6 +16,7 @@ use num_enum::TryFromPrimitive;
 pub use obligation::*;
 pub use referral::*;
 pub use reserve::*;
+use solana_program::vec;
 #[cfg(feature = "serde")]
 use strum::EnumIter;
 use strum::EnumString;
@@ -54,19 +55,19 @@ impl UpdateReserveConfigValue {
             UpdateReserveConfigValue::U8(v) => {
                 vec![*v]
             }
-            UpdateReserveConfigValue::U16(v) => v.to_le_bytes().to_vec(),
-            UpdateReserveConfigValue::U64(v) => v.to_le_bytes().to_vec(),
-            UpdateReserveConfigValue::Pubkey(v) => v.as_ref().to_vec(),
-            UpdateReserveConfigValue::ScopeChain(chain) => chain.map(|x| x.to_le_bytes()).concat(),
-            UpdateReserveConfigValue::Name(v) => v.to_vec(),
-            UpdateReserveConfigValue::Full(config) => config.try_to_vec().unwrap(),
-            UpdateReserveConfigValue::BorrowRateCurve(curve) => curve.try_to_vec().unwrap(),
+            UpdateReserveConfigValue::U16(v) => v.to_le_bytes().to_vec().into(),
+            UpdateReserveConfigValue::U64(v) => v.to_le_bytes().to_vec().into(),
+            UpdateReserveConfigValue::Pubkey(v) => v.as_ref().to_vec().into(),
+            UpdateReserveConfigValue::ScopeChain(chain) => chain.map(|x| x.to_le_bytes()).concat().into(),
+            UpdateReserveConfigValue::Name(v) => v.to_vec().into(),
+            UpdateReserveConfigValue::Full(config) => config.try_to_vec().unwrap().into(),
+            UpdateReserveConfigValue::BorrowRateCurve(curve) => curve.try_to_vec().unwrap().into(),
             UpdateReserveConfigValue::WithdrawalCap(cap, interval) => {
-                (*cap, *interval).try_to_vec().unwrap()
+                (*cap, *interval).try_to_vec().unwrap().into()
             }
-            UpdateReserveConfigValue::ElevationGroups(groups) => groups.to_vec(),
-            UpdateReserveConfigValue::U8Tuple(mode, value) => (*mode, *value).try_to_vec().unwrap(),
-            UpdateReserveConfigValue::ElevationGroupBorrowLimits(e) => e.try_to_vec().unwrap(),
+            UpdateReserveConfigValue::ElevationGroups(groups) => groups.to_vec().into(),
+            UpdateReserveConfigValue::U8Tuple(mode, value) => (*mode, *value).try_to_vec().unwrap().into(),
+            UpdateReserveConfigValue::ElevationGroupBorrowLimits(e) => e.try_to_vec().unwrap().into(),
         }
     }
 }

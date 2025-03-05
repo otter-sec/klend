@@ -25,32 +25,34 @@ where
 }
 
 pub mod token_2022 {
-    use anchor_lang::err;
-    use anchor_spl::{
-        token::spl_token,
-        token_2022::{
-            spl_token_2022, spl_token_2022::extension::confidential_transfer::EncryptedBalance,
-        },
-        token_interface::spl_token_2022::extension::{
-            BaseStateWithExtensions, ExtensionType, StateWithExtensions,
-        },
-    };
-    use bytemuck::Zeroable;
-    use solana_program::{account_info::AccountInfo, pubkey::Pubkey};
+    use anchor_lang::prelude::stub;
+    // use anchor_spl::{
+    //     token::spl_token,
+    //     token_2022::{
+    //         spl_token_2022, spl_token_2022::extension::confidential_transfer::EncryptedBalance,
+    //     },
+    //     token_interface::spl_token_2022::extension::{
+    //         BaseStateWithExtensions, ExtensionType, StateWithExtensions,
+    //     },
+    // };
+    // use bytemuck::Zeroable;
+    use solana_program::account_info::AccountInfo;
 
-    use crate::{xmsg, LendingError};
+    // use crate::{xmsg, LendingError};
 
-    const VALID_LIQUIDITY_TOKEN_EXTENSIONS: &[ExtensionType] = &[
-        ExtensionType::ConfidentialTransferFeeConfig,
-        ExtensionType::ConfidentialTransferMint,
-        ExtensionType::MintCloseAuthority,
-        ExtensionType::MetadataPointer,
-        ExtensionType::PermanentDelegate,
-        ExtensionType::TransferFeeConfig,
-        ExtensionType::TokenMetadata,
-        ExtensionType::TransferHook,
-    ];
+    // const VALID_LIQUIDITY_TOKEN_EXTENSIONS: &[ExtensionType] = &[
+    //     ExtensionType::ConfidentialTransferFeeConfig,
+    //     ExtensionType::ConfidentialTransferMint,
+    //     ExtensionType::MintCloseAuthority,
+    //     ExtensionType::MetadataPointer,
+    //     ExtensionType::PermanentDelegate,
+    //     ExtensionType::TransferFeeConfig,
+    //     ExtensionType::TokenMetadata,
+    //     ExtensionType::TransferHook,
+    // ];
 
+    // Note: Always returns Ok()
+    #[stub(())]
     pub fn validate_liquidity_token_extensions(
         mint_acc_info: &AccountInfo,
         token_acc_info: &AccountInfo,

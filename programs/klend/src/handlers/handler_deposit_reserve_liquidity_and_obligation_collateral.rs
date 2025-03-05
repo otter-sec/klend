@@ -198,5 +198,5 @@ pub struct DepositReserveLiquidityAndObligationCollateral<'info> {
 pub struct DepositReserveLiquidityAndObligationCollateralV2<'info> {
     pub deposit_accounts: DepositReserveLiquidityAndObligationCollateral<'info>,
     pub farms_accounts: OptionalObligationFarmsAccounts<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

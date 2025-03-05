@@ -43,13 +43,13 @@ bytemuck.workspace = true
 
 derivative = "2.2.0"
 num_enum = "0.7.0"
-# strum = { git = "https://github.com/Kamino-Finance/strum", features = ["derive"], branch = "checked_arithmetics" }
+strum = { git = "https://github.com/Kamino-Finance/strum", features = ["derive"], branch = "checked_arithmetics" }
 
 static_assertions = "1.1.0"
 
 derive_builder = "0.13.0"
 
-fixed = { version = "1.0.0" }
+fixed = { version = "1.23.0" }
 fixed-macro = "1.0"
 uint = "0.9.5"
 bitflags = "2.4.1"
@@ -57,3 +57,4 @@ bitflags = "2.4.1"
 # Only required when serializing to market config to JSON and in tests
 serde = { workspace = true, optional = true }
 tracing = { version = "0.1.40", optional = true }
+decimal-wad = "0.1.9"

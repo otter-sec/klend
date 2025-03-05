@@ -1,15 +1,17 @@
 use std::{
-    cell::{Ref, RefMut},
-    collections::BTreeSet,
+    cell::{Ref, RefCell, RefMut},
+    collections::{BTreeMap, BTreeSet},
     fmt,
     marker::PhantomData,
     ops::DerefMut,
 };
 
+use bytemuck::{Pod, Zeroable};
+use solana_program::vec;
 use anchor_lang::{
-    error::ErrorCode, prelude::AccountLoader, Accounts, Key, Owner, Result, ToAccountInfos,
-    ToAccountMetas, ZeroCopy,
+    error::ErrorCode, prelude::AccountLoader, Accounts, Arbitrary, Key, Owner, Result, ToAccountInfos, ToAccountMetas, ZeroCopy
 };
+
 use solana_program::{account_info::AccountInfo, instruction::AccountMeta, pubkey::Pubkey};
 
 pub trait AnyAccountLoader<'info, T> {
@@ -55,19 +57,20 @@ impl<'info, T: ZeroCopy + Owner> FatAccountLoader<'info, T> {
 
     #[inline(never)]
     pub fn try_from(acc_info: &AccountInfo<'info>) -> Result<FatAccountLoader<'info, T>> {
-        if acc_info.owner != &T::owner() {
-            return Err(
-                anchor_lang::error::Error::from(ErrorCode::AccountOwnedByWrongProgram)
-                    .with_pubkeys((*acc_info.owner, T::owner())),
-            );
-        }
-        let data: &[u8] = &acc_info.try_borrow_data()?;
-        if data.len() < T::discriminator().len() {
-            return Err(ErrorCode::AccountDiscriminatorNotFound.into());
-        }
-        if data[0..8] != T::discriminator() {
-            return Err(ErrorCode::AccountDiscriminatorMismatch.into());
-        }
+        // if acc_info.owner != &T::owner() {
+        //     return Err(
+        //         anchor_lang::error::Error::from(ErrorCode::AccountOwnedByWrongProgram)
+        //             .with_pubkeys((*acc_info.owner, T::owner())),
+        //     );
+        // }
+        // let data: &[u8] = &acc_info.try_borrow_data()?;
+        // if data.len() < T::discriminator().len() {
+        //     return Err(ErrorCode::AccountDiscriminatorNotFound.into());
+        // }
+        // if data[0..8] != T::discriminator() {
+        //     return Err(ErrorCode::AccountDiscriminatorMismatch.into());
+        // }
+
 
         Ok(FatAccountLoader::new(acc_info))
     }
@@ -77,12 +80,12 @@ impl<'info, T: ZeroCopy + Owner> FatAccountLoader<'info, T> {
         _program_id: &Pubkey,
         acc_info: &AccountInfo<'info>,
     ) -> Result<FatAccountLoader<'info, T>> {
-        if acc_info.owner != &T::owner() {
-            return Err(
-                anchor_lang::error::Error::from(ErrorCode::AccountOwnedByWrongProgram)
-                    .with_pubkeys((*acc_info.owner, T::owner())),
-            );
-        }
+        // if acc_info.owner != &T::owner() {
+        //     return Err(
+        //         anchor_lang::error::Error::from(ErrorCode::AccountOwnedByWrongProgram)
+        //             .with_pubkeys((*acc_info.owner, T::owner())),
+        //     );
+        // }
         Ok(FatAccountLoader::new(acc_info))
     }
 
@@ -153,13 +156,13 @@ impl<'info, T: ZeroCopy + Owner> AnyAccountLoader<'info, T> for FatAccountLoader
     }
 }
 
-impl<'info, B, T: ZeroCopy + Owner> Accounts<'info, B> for FatAccountLoader<'info, T> {
+impl<'info, T: ZeroCopy + Owner> Accounts<'info> for FatAccountLoader<'info, T> {
     #[inline(never)]
     fn try_accounts(
         _program_id: &Pubkey,
-        accounts: &mut &'info [AccountInfo<'info>],
+        accounts: &mut &[AccountInfo<'info>],
         _ix_data: &[u8],
-        _bumps: &mut B,
+        _bumps: &mut BTreeMap<String, u8>,
         _reallocs: &mut BTreeSet<Pubkey>,
     ) -> Result<Self> {
         if accounts.is_empty() {
@@ -198,5 +201,16 @@ impl<'info, T: ZeroCopy + Owner> ToAccountInfos<'info> for FatAccountLoader<'inf
 impl<'info, T: ZeroCopy + Owner> Key for FatAccountLoader<'info, T> {
     fn key(&self) -> Pubkey {
         *self.acc_info.key
+    }
+}
+
+
+#[cfg(any(kani, feature = "kani"))]
+impl<'info, T: Owner + ZeroCopy> kani::Arbitrary for FatAccountLoader<'info, T> {
+    fn any() -> Self {
+        Self {
+            acc_info: kani::any(),
+            phantom: PhantomData,
+        }
     }
 }

@@ -133,5 +133,5 @@ pub struct DepositObligationCollateralV2<'info> {
     )]
     pub lending_market_authority: AccountInfo<'info>,
     pub farms_accounts: OptionalObligationFarmsAccounts<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

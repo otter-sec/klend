@@ -1,20 +1,24 @@
+use std::default;
+
 use anchor_lang::{prelude::*, Discriminator};
 use solana_program::log::sol_log_compute_units;
 
+use solana_program::vec;
 use crate::{
     instruction::{RefreshObligation, RefreshObligationFarmsForReserve, RefreshReserve},
     lending_market::ix_utils::{BpfInstructionLoader, InstructionLoader},
     LendingError, Reserve, ReserveFarmKind,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default, Copy)]
 pub enum RequiredIxType {
+    #[default]
     RefreshReserve,
     RefreshFarmsForObligationForReserve,
     RefreshObligation,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default, Copy)]
 pub struct RequiredIx {
     pub kind: RequiredIxType,
     pub accounts: Vec<(Pubkey, usize)>,
@@ -32,6 +36,7 @@ impl RequiredIx {
     }
 }
 
+#[stub(())]
 pub fn check_cpi_call(instruction_sysvar_account_info: &AccountInfo) -> Result<()> {
     let ix_loader = BpfInstructionLoader {
         instruction_sysvar_account_info,
@@ -46,6 +51,7 @@ pub fn check_cpi_call(instruction_sysvar_account_info: &AccountInfo) -> Result<(
     Ok(())
 }
 
+#[stub(())]
 pub fn check_refresh(
     instruction_sysvar_account_info: &AccountInfo,
     reserves: &[(Pubkey, &Reserve)],
@@ -133,13 +139,13 @@ pub fn check_refresh(
     for reserve in reserves.iter().take(refresh_reserve_ixs) {
         required_pre_ixs.push(RequiredIx {
             kind: RequiredIxType::RefreshReserve,
-            accounts: vec![(reserve.0, 0)],
+            accounts: vec![(reserve.0, 0)].into(),
         });
     }
 
     required_pre_ixs.push(RequiredIx {
         kind: RequiredIxType::RefreshObligation,
-        accounts: vec![(*obligation_address, 1)],
+        accounts: vec![(*obligation_address, 1)].into(),
     });
 
     reserves
@@ -153,7 +159,7 @@ pub fn check_refresh(
                         (*reserve_address, 3),
                         (*obligation_address, 1),
                         (reserve.get_farm(*farm_type), 4),
-                    ],
+                    ].into(),
                 };
                 required_pre_ixs.push(required_ix.clone());
                 required_post_ixs.push(required_ix);
@@ -185,6 +191,7 @@ pub(crate) mod cpi_refresh_farms {
         pub farm_kind: ReserveFarmKind,
     }
 
+    #[stub(())]
     pub fn refresh_obligation_farms_for_reserve<'info>(
         reserves_and_farms: RefreshFarmsParams<'_, 'info>,
         obligation: &impl ToAccountInfo<'info>,
@@ -209,7 +216,7 @@ pub(crate) mod cpi_refresh_farms {
                 reserve: reserve.clone(),
                 reserve_farm_state: reserve_farm_state.clone(),
                 obligation_farm_user_state: obligation_farm_user_state.clone(),
-                lending_market: lending_market.clone(),
+                lending_market: *lending_market.clone(),
             };
             process_impl_refresh_obligation_farms_for_reserve(&refresh_accounts, farm_kind)
         } else {

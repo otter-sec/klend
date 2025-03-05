@@ -2,7 +2,7 @@ use anchor_lang::{
     accounts::account_loader::AccountLoader,
     err, error,
     prelude::{msg, Context, Pubkey},
-    require_eq, require_gte, Key, Result, ToAccountInfo,
+    require_eq, require_gte, Result, ToAccountInfo, Key,
 };
 
 use crate::{
@@ -316,14 +316,14 @@ pub fn refresh_obligation_farms_for_reserve_checks(
     accounts: &RefreshObligationFarmsForReserveBase,
 ) -> Result<()> {
     if !accounts.obligation.data_is_empty() {
-        let obligation_account: FatAccountLoader<Obligation> =
+        let obligation_account: FatAccountLoader<Obligatixon> =
             FatAccountLoader::try_from(&accounts.obligation).unwrap();
         let obligation = obligation_account.load()?;
 
         if obligation.lending_market != accounts.lending_market.key() {
             msg!("Obligation lending market does not match the lending market provided");
-            return Err(error!(LendingError::InvalidAccountInput)
-                .with_pubkeys((obligation.lending_market, accounts.lending_market.key())));
+            return Err(error!(LendingError::InvalidAccountInput));
+                // .with_pubkeys((obligation.lending_market, accounts.lending_market.key())));
         }
     }
 

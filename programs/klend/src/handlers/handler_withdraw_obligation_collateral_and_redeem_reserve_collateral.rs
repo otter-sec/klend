@@ -196,5 +196,5 @@ pub struct WithdrawObligationCollateralAndRedeemReserveCollateral<'info> {
 pub struct WithdrawObligationCollateralAndRedeemReserveCollateralV2<'info> {
     pub withdraw_accounts: WithdrawObligationCollateralAndRedeemReserveCollateral<'info>,
     pub farms_accounts: OptionalObligationFarmsAccounts<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

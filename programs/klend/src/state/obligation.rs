@@ -12,9 +12,9 @@ use crate::{
     xmsg, AssetTier, BigFractionBytes, LendingError,
 };
 
-static_assertions::const_assert_eq!(OBLIGATION_SIZE, std::mem::size_of::<Obligation>());
-static_assertions::const_assert_eq!(0, std::mem::size_of::<Obligation>() % 8);
-#[derive(PartialEq, Derivative)]
+// static_assertions::const_assert_eq!(OBLIGATION_SIZE, std::mem::size_of::<Obligation>());
+// static_assertions::const_assert_eq!(0, std::mem::size_of::<Obligation>() % 8);
+#[derive(PartialEq, Derivative, Clone, Copy)]
 #[derivative(Debug)]
 #[account(zero_copy)]
 #[repr(C)]
@@ -484,13 +484,13 @@ pub struct InitObligationParams {
     pub referrer: Pubkey,
 }
 
-#[derive(AnchorDeserialize, AnchorSerialize)]
+#[derive(AnchorDeserialize, AnchorSerialize, Arbitrary)]
 pub struct InitObligationArgs {
     pub tag: u8,
     pub id: u8,
 }
 
-#[derive(Debug, Default, PartialEq, Eq)]
+#[derive(Debug, Default, PartialEq, Eq, Clone, Copy)]
 #[zero_copy]
 #[repr(C)]
 pub struct ObligationCollateral {
@@ -529,7 +529,7 @@ impl ObligationCollateral {
     }
 }
 
-#[derive(Debug, Default, PartialEq, Eq)]
+#[derive(Debug, Default, PartialEq, Eq, Clone, Copy)]
 #[zero_copy]
 #[repr(C)]
 pub struct ObligationLiquidity {

@@ -1,5 +1,5 @@
 use anchor_lang::{prelude::*, Accounts};
-use farms::program::Farms;
+// use farms::program::Farms;
 
 use crate::{
     lending_market::farms_ixs,
@@ -67,7 +67,7 @@ pub struct InitObligationFarmsForReserve<'info> {
 
     pub lending_market: AccountLoader<'info, LendingMarket>,
 
-    pub farms_program: Program<'info, Farms>,
+    pub farms_program: AccountInfo<'info>,
     pub rent: Sysvar<'info, Rent>,
     pub system_program: Program<'info, System>,
 }

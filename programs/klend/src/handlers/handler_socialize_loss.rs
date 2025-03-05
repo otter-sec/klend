@@ -91,5 +91,5 @@ pub struct SocializeLossV2<'info> {
         bump = socialize_loss_accounts.lending_market.load()?.bump_seed as u8,
     )]
     pub lending_market_authority: AccountInfo<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

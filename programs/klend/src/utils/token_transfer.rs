@@ -1,5 +1,5 @@
 use anchor_lang::{
-    prelude::{AccountInfo, CpiContext},
+    prelude::{stub, AccountInfo, CpiContext},
     Result,
 };
 use anchor_spl::token_interface;
@@ -71,6 +71,7 @@ pub fn deposit_reserve_liquidity_transfer<'a>(
     Ok(())
 }
 
+#[stub()]
 pub fn deposit_initial_reserve_liquidity_transfer<'a>(
     source_liquidity_deposit: AccountInfo<'a>,
     destination_liquidity_deposit: AccountInfo<'a>,

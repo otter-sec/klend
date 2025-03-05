@@ -1,4 +1,4 @@
-use anchor_lang::prelude::{require, Result};
+use anchor_lang::prelude::{require, Result, Error};
 
 use crate::LendingError;
 

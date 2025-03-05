@@ -1,9 +1,9 @@
 use anchor_lang::{
     err, error,
-    prelude::{msg, AccountInfo},
+    prelude::{msg, stub, AccountInfo},
     Result,
 };
-use sbod_itf::accounts::PullFeedAccountData;
+// use sbod_itf::accounts::PullFeedAccountData;
 use solana_program::clock::{Clock, DEFAULT_MS_PER_SLOT};
 
 use crate::{
@@ -18,6 +18,7 @@ use crate::{
     LendingError,
 };
 
+#[stub(TimestampedPriceWithTwap::default())]
 pub(super) fn get_switchboard_price_and_twap(
     switchboard_price_feed_info: &AccountInfo,
     switchboard_twap_feed_info: Option<&AccountInfo>,
@@ -31,6 +32,7 @@ pub(super) fn get_switchboard_price_and_twap(
     Ok(TimestampedPriceWithTwap { price, twap })
 }
 
+#[stub(TimestampedPrice::default())]
 fn get_switchboard_price(
     switchboard_feed_info: &AccountInfo,
     clock: &Clock,
@@ -95,6 +97,8 @@ fn get_switchboard_price(
     })
 }
 
+
+#[stub(())]
 fn validate_switchboard_confidence(
     price_mantissa: u128,
     price_scale: u32,
@@ -122,7 +126,7 @@ fn validate_switchboard_confidence(
     let stdev_x_confidence_factor_scaled = stdev_mantissa
         .checked_mul(oracle_confidence_factor.into())
         .and_then(|a| scale_op(a, scaling_factor))
-        .ok_or_else(|| error!(LendingError::MathOverflow))?;
+        .ok_or_else(|| error!(LendingError::MathOverflow)?);
 
     if stdev_x_confidence_factor_scaled >= price_mantissa {
         msg!(

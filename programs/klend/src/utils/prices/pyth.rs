@@ -1,7 +1,7 @@
 use std::convert::TryFrom;
 
 use anchor_lang::prelude::*;
-use pyth_solana_receiver_sdk::price_update::{
+use crate::pyth_solana_receiver_sdk::price_update::{
     Price as PythPrice, PriceFeedMessage, PriceUpdateV2, VerificationLevel,
 };
 
@@ -11,6 +11,8 @@ use super::{
 };
 use crate::LendingError;
 
+
+#[stub(TimestampedPriceWithTwap::default())]
 pub(super) fn get_pyth_price_and_twap(
     pyth_price_info: &AccountInfo,
 ) -> Result<TimestampedPriceWithTwap> {
@@ -27,6 +29,8 @@ pub(super) fn get_pyth_price_and_twap(
     })
 }
 
+
+#[stub(PriceFeedMessage::default())]
 fn load_price_feed_from_account_info(pyth_price_info: &AccountInfo) -> Result<PriceFeedMessage> {
     let price_update_data = pyth_price_info.data.borrow();
     let PriceUpdateV2 {

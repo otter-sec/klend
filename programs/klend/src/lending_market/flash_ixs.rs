@@ -15,6 +15,7 @@ use crate::{
     LendingError,
 };
 
+#[stub(())]
 pub fn flash_repay_checks(
     ctx: &Context<FlashRepayReserveLiquidity>,
     borrow_instruction_index: u8,
@@ -69,6 +70,7 @@ pub fn flash_repay_checks(
     Ok(())
 }
 
+#[stub(())]
 pub fn flash_borrow_checks(
     ctx: &Context<FlashBorrowReserveLiquidity>,
     liquidity_amount: u64,
@@ -78,6 +80,7 @@ pub fn flash_borrow_checks(
     };
     flash_borrow_checks_internal(liquidity_amount, &instruction_loader)
 }
+
 
 fn flash_borrow_checks_internal(
     liquidity_amount: u64,

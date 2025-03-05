@@ -334,5 +334,5 @@ pub struct LiquidateObligationAndRedeemReserveCollateralV2<'info> {
     pub liquidation_accounts: LiquidateObligationAndRedeemReserveCollateral<'info>,
     pub collateral_farms_accounts: OptionalObligationFarmsAccounts<'info>,
     pub debt_farms_accounts: OptionalObligationFarmsAccounts<'info>,
-    pub farms_program: Program<'info, farms::program::Farms>,
+    pub farms_program: AccountInfo<'info>,
 }

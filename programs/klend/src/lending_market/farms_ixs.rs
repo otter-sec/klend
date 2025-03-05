@@ -1,7 +1,7 @@
 use anchor_lang::{
     prelude::{Context, *},
     solana_program::{instruction::Instruction, program},
-    InstructionData,
+    // InstructionData,
 };
 
 use crate::{
@@ -14,6 +14,10 @@ use crate::{
     Reserve, ReserveFarmKind,
 };
 
+
+// Note: All cpi functions are stubbed out so all cpi calls will return Ok(()).
+
+#[stub(())]
 pub fn cpi_initialize_farm_delegated(ctx: &Context<InitFarmsForReserve>) -> Result<()> {
     let lending_market = ctx.accounts.lending_market.load()?;
     let lending_market_key = ctx.accounts.lending_market.key();
@@ -54,6 +58,7 @@ pub fn cpi_initialize_farm_delegated(ctx: &Context<InitFarmsForReserve>) -> Resu
     .map_err(Into::into)
 }
 
+#[stub(())]
 pub fn cpi_initialize_farmer_delegated(
     ctx: &Context<InitObligationFarmsForReserve>,
     obligation: &Pubkey,
@@ -100,6 +105,7 @@ pub fn cpi_initialize_farmer_delegated(
     .map_err(Into::into)
 }
 
+#[stub(())]
 pub fn cpi_set_stake_delegated(
     accounts_ctx: &RefreshObligationFarmsForReserveBase,
     reserve: &Reserve,
