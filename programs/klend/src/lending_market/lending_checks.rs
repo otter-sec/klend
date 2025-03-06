@@ -316,7 +316,7 @@ pub fn refresh_obligation_farms_for_reserve_checks(
     accounts: &RefreshObligationFarmsForReserveBase,
 ) -> Result<()> {
     if !accounts.obligation.data_is_empty() {
-        let obligation_account: FatAccountLoader<Obligatixon> =
+        let obligation_account: FatAccountLoader<Obligation> =
             FatAccountLoader::try_from(&accounts.obligation).unwrap();
         let obligation = obligation_account.load()?;
 
