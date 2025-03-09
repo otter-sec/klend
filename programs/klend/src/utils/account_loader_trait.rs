@@ -1,30 +1,32 @@
 use std::{
-    cell::{Ref, RefCell, RefMut},
     collections::{BTreeMap, BTreeSet},
     fmt,
     marker::PhantomData,
     ops::DerefMut,
 };
 
-use bytemuck::{Pod, Zeroable};
-use solana_program::vec;
 use anchor_lang::{
-    error::ErrorCode, prelude::AccountLoader, Accounts, Arbitrary, Key, Owner, Result, ToAccountInfos, ToAccountMetas, ZeroCopy
+    error::ErrorCode, prelude::AccountLoader, Accounts, Arbitrary, Key, Owner, Result,
+    ToAccountInfos, ToAccountMetas, ZeroCopy,
 };
+use bytemuck::{Pod, Zeroable};
+use solana_program::{vec, Ref, RefMut};
 
 use solana_program::{account_info::AccountInfo, instruction::AccountMeta, pubkey::Pubkey};
 
 pub trait AnyAccountLoader<'info, T> {
     fn get_mut(&self) -> Result<RefMut<T>>;
-    fn get(&self) -> Result<T>;
+    fn get(&self) -> Result<Ref<T>>;
     fn get_pubkey(&self) -> Pubkey;
 }
 
-impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> AnyAccountLoader<'info, T> for AccountLoader<'info, T> {
+impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> AnyAccountLoader<'info, T>
+    for AccountLoader<'info, T>
+{
     fn get_mut(&self) -> Result<RefMut<T>> {
         self.load_mut()
     }
-    fn get(&self) -> Result<T> {
+    fn get(&self) -> Result<Ref<T>> {
         self.load()
     }
 
@@ -71,7 +73,6 @@ impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> FatAccountLoader<'info, T> {
         //     return Err(ErrorCode::AccountDiscriminatorMismatch.into());
         // }
 
-
         Ok(FatAccountLoader::new(acc_info))
     }
 
@@ -89,7 +90,7 @@ impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> FatAccountLoader<'info, T> {
         Ok(FatAccountLoader::new(acc_info))
     }
 
-    pub fn load(&self) -> Result<T> {
+    pub fn load(&self) -> Result<Ref<T>> {
         // let data = self.acc_info.try_borrow_data()?;
         // if data.len() < T::discriminator().len() {
         //     return Err(ErrorCode::AccountDiscriminatorNotFound.into());
@@ -102,7 +103,7 @@ impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> FatAccountLoader<'info, T> {
         // Ok(Ref::map(data, |data| {
         //     bytemuck::from_bytes(&data[8..std::mem::size_of::<T>() + 8])
         // }))
-        Ok(kani::any::<T>())
+        Ok(Ref::new(&kani::any::<T>()))
     }
 
     pub fn load_mut(&self) -> Result<RefMut<T>> {
@@ -122,30 +123,17 @@ impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> FatAccountLoader<'info, T> {
         // Ok(RefMut::map(data, |data| {
         //     bytemuck::from_bytes_mut(&mut data.deref_mut()[8..std::mem::size_of::<T>() + 8])
         // }))
-        let acc = kani::any::<T>();
+        Ok(RefMut::new(&kani::any::<T>()))
     }
 
-    pub fn load_init(&self) -> Result<RefMut<T>> {
-        if !self.acc_info.is_writable {
-            return Err(ErrorCode::AccountNotMutable.into());
-        }
-
-        let data = self.acc_info.try_borrow_mut_data()?;
-
-        let mut disc_bytes = [0u8; 8];
-        disc_bytes.copy_from_slice(&data[..8]);
-        let discriminator = u64::from_le_bytes(disc_bytes);
-        if discriminator != 0 {
-            return Err(ErrorCode::AccountDiscriminatorAlreadySet.into());
-        }
-
-        Ok(RefMut::map(data, |data| {
-            bytemuck::from_bytes_mut(&mut data.deref_mut()[8..std::mem::size_of::<T>() + 8])
-        }))
+    pub fn load_init(&self) -> Result<Ref<T>> {
+        Ok(Ref::new(&kani::any::<T>()))
     }
 }
 
-impl<'info, T: ZeroCopy + Owner> AnyAccountLoader<'info, T> for FatAccountLoader<'info, T> {
+impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> AnyAccountLoader<'info, T>
+    for FatAccountLoader<'info, T>
+{
     fn get_mut(&self) -> Result<RefMut<T>> {
         self.load_mut()
     }
@@ -188,13 +176,17 @@ impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> ToAccountMetas for FatAccount
     }
 }
 
-impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> AsRef<AccountInfo<'info>> for FatAccountLoader<'info, T> {
+impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> AsRef<AccountInfo<'info>>
+    for FatAccountLoader<'info, T>
+{
     fn as_ref(&self) -> &AccountInfo<'info> {
         &self.acc_info
     }
 }
 
-impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> ToAccountInfos<'info> for FatAccountLoader<'info, T> {
+impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> ToAccountInfos<'info>
+    for FatAccountLoader<'info, T>
+{
     fn to_account_infos(&self) -> Vec<AccountInfo<'info>> {
         vec![self.acc_info.clone()]
     }
@@ -205,7 +197,6 @@ impl<'info, T: ZeroCopy + Owner + kani::Arbitrary> Key for FatAccountLoader<'inf
         *self.acc_info.key
     }
 }
-
 
 #[cfg(any(kani, feature = "kani"))]
 impl<'info, T: Owner + ZeroCopy> kani::Arbitrary for FatAccountLoader<'info, T> {

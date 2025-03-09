@@ -1,5 +1,4 @@
 use std::{
-    cell::RefMut,
     cmp::min,
     ops::{Add, Div, Mul},
 };
@@ -807,11 +806,10 @@ where
     if allowed_borrow_value < borrow_factor_adjusted_debt_value {
         msg!("The obligation is not healthy enough to support the new elevation group");
         return Err(
-            error!(LendingError::UnhealthyElevationGroupLtv)
-            // .with_values((
-            //     allowed_borrow_value.to_display(),
-            //     borrow_factor_adjusted_debt_value.to_display(),
-            // )),
+            error!(LendingError::UnhealthyElevationGroupLtv), // .with_values((
+                                                              //     allowed_borrow_value.to_display(),
+                                                              //     borrow_factor_adjusted_debt_value.to_display(),
+                                                              // )),
         );
     }
 

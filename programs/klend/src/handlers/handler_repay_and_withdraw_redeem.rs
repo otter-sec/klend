@@ -1,4 +1,5 @@
 use anchor_lang::{context::FakeBumps, prelude::*, Accounts};
+use solana_program::vec::fast::ToVec;
 
 use crate::{
     handler_refresh_obligation,
@@ -144,7 +145,7 @@ fn process_impl(
                 lending_market: repay_accounts.lending_market.clone(),
             },
             remaining_accounts: remaining_accounts.as_slice(),
-            bumps: FakeBumps {},
+            bumps: FakeBumps::new(),
         };
 
         handler_refresh_obligation::process(
@@ -207,7 +208,7 @@ fn process_impl(
                 lending_market: repay_accounts.lending_market.clone(),
             },
             remaining_accounts: remaining_accounts_post_withdrawal.as_slice(),
-            bumps: FakeBumps {},
+            bumps: FakeBumps::new(),
         };
 
         handler_refresh_obligation::process(

@@ -13,11 +13,11 @@ overflow-checks = true
 
 [workspace.dependencies]
 # Anchor
-anchor-lang = { package = "onchor", path = "/Users/swaroopmaddu/workspace/osec/Development/2025/solana-verify/anchor" }
-anchor-spl = { package = "onchor_spl", path = "/Users/swaroopmaddu/workspace/osec/Development/2025/solana-verify/anchor_spl", features = ["dex", "token"]  }
+anchor-lang = { package = "onchor", path = "/Users/andreas/Documents/osec/solana-verify/anchor" }
+anchor-spl = { package = "onchor_spl", path = "/Users/andreas/Documents/osec/solana-verify/anchor_spl", features = ["dex", "token"]  }
 
 # Solana
-solana-program = { package = "otter-solana-program", path = "/Users/swaroopmaddu/workspace/osec/Development/2025/solana-verify/program" }
+solana-program = { package = "otter-solana-program", path = "/Users/andreas/Documents/osec/solana-verify/program" }
 # solana-sdk = "~1.17.18"
 # solana-banks-client = "~1.17.18"
 # solana-banks-interface = "~1.17.18"

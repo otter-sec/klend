@@ -51,7 +51,7 @@ pub fn process(
                 lending_market: ctx.accounts.deposit_accounts.lending_market.clone(),
             },
             remaining_accounts: ctx.remaining_accounts,
-            bumps: FakeBumps {},
+            bumps: FakeBumps::new(),
         };
 
         handler_refresh_obligation::process(
@@ -118,7 +118,7 @@ pub fn process(
                 lending_market: ctx.accounts.deposit_accounts.lending_market.clone(),
             },
             remaining_accounts: remaining_accounts.as_slice(),
-            bumps: FakeBumps {},
+            bumps: FakeBumps::new(),
         };
 
         handler_refresh_obligation::process(

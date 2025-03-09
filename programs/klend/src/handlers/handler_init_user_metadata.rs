@@ -17,7 +17,7 @@ pub fn process(ctx: Context<InitUserMetadata>, user_lookup_table: Pubkey) -> Res
     let mut user_metadata = ctx.accounts.user_metadata.load_init()?;
     let bump = ctx.bumps.user_metadata;
 
-    *user_metadata = UserMetadata {
+    *user_metadata = &UserMetadata {
         referrer,
         bump: bump.into(),
         user_lookup_table,
