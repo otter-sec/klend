@@ -64,7 +64,7 @@ pub mod kamino_lending {
     pub fn update_reserve_config(
         ctx: Context<UpdateReserveConfig>,
         mode: u64,
-        value: Vec<u8>,
+        value: FastVec<u8>,
         skip_validation: bool,
     ) -> Result<()> {
         handler_update_reserve_config::process(ctx, mode, &value, skip_validation)
@@ -394,19 +394,19 @@ pub mod kamino_lending {
         handler_delete_referrer_state_and_short_url::process(ctx)
     }
 
-    #[allow(clippy::too_many_arguments)]
-    pub fn idl_missing_types(
-        _ctx: Context<UpdateReserveConfig>,
-        _reserve_farm_kind: ReserveFarmKind,
-        _asset_tier: AssetTier,
-        _fee_calculation: FeeCalculation,
-        _reserve_status: ReserveStatus,
-        _update_config_mode: UpdateConfigMode,
-        _update_lending_market_config_value: UpdateLendingMarketConfigValue,
-        _update_lending_market_config_mode: UpdateLendingMarketMode,
-    ) -> Result<()> {
-        unreachable!("This should never be called")
-    }
+    // #[allow(clippy::too_many_arguments)]
+    // pub fn idl_missing_types(
+    //     _ctx: Context<UpdateReserveConfig>,
+    //     _reserve_farm_kind: ReserveFarmKind,
+    //     _asset_tier: AssetTier,
+    //     _fee_calculation: FeeCalculation,
+    //     _reserve_status: ReserveStatus,
+    //     _update_config_mode: UpdateConfigMode,
+    //     _update_lending_market_config_value: UpdateLendingMarketConfigValue,
+    //     _update_lending_market_config_mode: UpdateLendingMarketMode,
+    // ) -> Result<()> {
+    //     unreachable!("This should never be called")
+    // }
 }
 
 #[error_code]

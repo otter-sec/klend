@@ -92,6 +92,7 @@ pub struct ReferrerState {
 
 #[derive(PartialEq, Debug)]
 #[account()]
+#[invariant()]
 pub struct ShortUrl {
     pub referrer: Pubkey,
     pub short_url: String,

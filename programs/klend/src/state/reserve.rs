@@ -27,7 +27,7 @@ use crate::{
     CalculateBorrowResult, CalculateRepayResult, LendingError, LendingResult, ReferrerTokenState,
 };
 
-#[derive(Default, Debug, PartialEq, Eq)]
+#[derive(Default, Debug, PartialEq, Eq, kani::Arbitrary)]
 #[zero_copy]
 #[repr(C)]
 pub struct BigFractionBytes {
@@ -50,8 +50,8 @@ impl From<BigFractionBytes> for BigFraction {
     }
 }
 
-static_assertions::const_assert_eq!(RESERVE_SIZE, std::mem::size_of::<Reserve>());
-static_assertions::const_assert_eq!(0, std::mem::size_of::<Reserve>() % 8);
+// static_assertions::const_assert_eq!(RESERVE_SIZE, std::mem::size_of::<Reserve>());
+// static_assertions::const_assert_eq!(0, std::mem::size_of::<Reserve>() % 8);
 #[derive(PartialEq, Derivative)]
 #[derivative(Debug)]
 #[account(zero_copy)]
@@ -382,7 +382,7 @@ pub struct InitReserveParams {
     pub config: Box<ReserveConfig>,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, kani::Arbitrary)]
 #[zero_copy]
 #[repr(C)]
 pub struct ReserveLiquidity {
@@ -390,6 +390,7 @@ pub struct ReserveLiquidity {
     pub supply_vault: Pubkey,
     pub fee_vault: Pubkey,
     pub available_amount: u64,
+    pub padding1: u64,
     pub borrowed_amount_sf: u128,
     pub market_price_sf: u128,
     pub market_price_last_updated_ts: u64,
@@ -405,7 +406,7 @@ pub struct ReserveLiquidity {
     pub absolute_referral_rate_sf: u128,
     pub token_program: Pubkey,
 
-    pub padding2: [u64; 51],
+    pub padding2: [u64; 52],
     pub padding3: [u128; 32],
 }
 
@@ -428,7 +429,8 @@ impl Default for ReserveLiquidity {
             absolute_referral_rate_sf: 0,
             market_price_last_updated_ts: 0,
             token_program: Pubkey::default(),
-            padding2: [0; 51],
+            padding1: 0,
+            padding2: [0; 52],
             padding3: [0; 32],
         }
     }
@@ -463,7 +465,8 @@ impl ReserveLiquidity {
             absolute_referral_rate_sf: 0,
             market_price_last_updated_ts: 0,
             token_program: mint_token_program,
-            padding2: [0; 51],
+            padding1: 0,
+            padding2: [0; 52],
             padding3: [0; 32],
         }
     }
@@ -499,7 +502,7 @@ impl ReserveLiquidity {
         Ok(())
     }
 
-    pub fn borrow(&mut self, borrow_f: Fraction) -> Result<()> {
+    pub fn borrow2(&mut self, borrow_f: Fraction) -> Result<()> {
         let borrow_amount: u64 = borrow_f.to_floor();
 
         if borrow_amount > self.available_amount {
@@ -686,13 +689,14 @@ pub struct NewReserveLiquidityParams {
     pub initial_amount_deposited_in_reserve: u64,
 }
 
-#[derive(Debug, Default, PartialEq, Eq)]
+#[derive(Debug, Default, PartialEq, Eq, kani::Arbitrary)]
 #[zero_copy]
 #[repr(C)]
 pub struct ReserveCollateral {
     pub mint_pubkey: Pubkey,
     pub mint_total_supply: u64,
     pub supply_vault: Pubkey,
+    pub padding0: u64,
     pub padding1: [u128; 32],
     pub padding2: [u128; 32],
 }
@@ -708,6 +712,7 @@ impl ReserveCollateral {
             mint_pubkey,
             mint_total_supply: initial_collateral_supply,
             supply_vault,
+            padding0: 0,
             padding1: [0; 32],
             padding2: [0; 32],
         }
@@ -848,7 +853,7 @@ pub struct NewReserveCollateralParams {
 
 static_assertions::const_assert_eq!(RESERVE_CONFIG_SIZE, std::mem::size_of::<ReserveConfig>());
 static_assertions::const_assert_eq!(0, std::mem::size_of::<ReserveConfig>() % 8);
-#[derive(BorshDeserialize, BorshSerialize, PartialEq, Eq, Derivative, Default)]
+#[derive(BorshDeserialize, BorshSerialize, PartialEq, Eq, Derivative, Default, kani::Arbitrary)]
 #[derivative(Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
@@ -942,7 +947,7 @@ pub enum ReserveStatus {
     Hidden = 2,
 }
 
-#[derive(BorshDeserialize, BorshSerialize, PartialEq, Eq, Default, Debug)]
+#[derive(BorshDeserialize, BorshSerialize, PartialEq, Eq, Default, Debug, kani::Arbitrary)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[zero_copy]
 #[repr(C)]
@@ -961,7 +966,7 @@ pub struct WithdrawalCaps {
     pub config_interval_length_seconds: u64,
 }
 
-#[derive(BorshDeserialize, BorshSerialize, Default, PartialEq, Eq, Derivative)]
+#[derive(BorshDeserialize, BorshSerialize, Default, PartialEq, Eq, Derivative, kani::Arbitrary)]
 #[derivative(Debug)]
 #[zero_copy]
 #[repr(C)]

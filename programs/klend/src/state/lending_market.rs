@@ -198,7 +198,7 @@ pub struct InitLendingMarketParams {
     pub quote_currency: [u8; 32],
 }
 
-#[derive(BorshSerialize, BorshDeserialize, Derivative, PartialEq, Eq)]
+#[derive(BorshSerialize, BorshDeserialize, Derivative, PartialEq, Eq, kani::Arbitrary)]
 #[derivative(Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]

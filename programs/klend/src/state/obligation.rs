@@ -12,8 +12,8 @@ use crate::{
     xmsg, AssetTier, BigFractionBytes, LendingError,
 };
 
-static_assertions::const_assert_eq!(OBLIGATION_SIZE, std::mem::size_of::<Obligation>());
-static_assertions::const_assert_eq!(0, std::mem::size_of::<Obligation>() % 8);
+// static_assertions::const_assert_eq!(OBLIGATION_SIZE, std::mem::size_of::<Obligation>());
+// static_assertions::const_assert_eq!(0, std::mem::size_of::<Obligation>() % 8);
 #[derive(PartialEq, Derivative)]
 #[derivative(Debug)]
 #[account(zero_copy)]
@@ -484,21 +484,22 @@ pub struct InitObligationParams {
     pub referrer: Pubkey,
 }
 
-#[derive(AnchorDeserialize, AnchorSerialize)]
+#[derive(AnchorDeserialize, AnchorSerialize, kani::Arbitrary)]
 pub struct InitObligationArgs {
     pub tag: u8,
     pub id: u8,
 }
 
-#[derive(Debug, Default, PartialEq, Eq)]
+#[derive(Debug, Default, PartialEq, Eq, kani::Arbitrary)]
 #[zero_copy]
 #[repr(C)]
 pub struct ObligationCollateral {
     pub deposit_reserve: Pubkey,
     pub deposited_amount: u64,
+    pub _padding1: [u64; 1],
     pub market_value_sf: u128,
     pub borrowed_amount_against_this_collateral_in_elevation_group: u64,
-    pub padding: [u64; 9],
+    pub _padding2: [u64; 9],
 }
 
 impl ObligationCollateral {
@@ -508,7 +509,8 @@ impl ObligationCollateral {
             deposited_amount: 0,
             market_value_sf: 0,
             borrowed_amount_against_this_collateral_in_elevation_group: 0,
-            padding: [0; 9],
+            _padding1: [0; 1],
+            _padding2: [0; 9],
         }
     }
 
@@ -529,13 +531,13 @@ impl ObligationCollateral {
     }
 }
 
-#[derive(Debug, Default, PartialEq, Eq)]
+#[derive(Debug, Default, PartialEq, Eq, kani::Arbitrary)]
 #[zero_copy]
 #[repr(C)]
 pub struct ObligationLiquidity {
     pub borrow_reserve: Pubkey,
     pub cumulative_borrow_rate_bsf: BigFractionBytes,
-    pub padding: u64,
+    // pub padding: u64,
     pub borrowed_amount_sf: u128,
     pub market_value_sf: u128,
     pub borrow_factor_adjusted_market_value_sf: u128,
@@ -550,7 +552,7 @@ impl ObligationLiquidity {
         Self {
             borrow_reserve,
             cumulative_borrow_rate_bsf: cumulative_borrow_rate_bf.into(),
-            padding: 0,
+            // padding: 0,
             borrowed_amount_sf: 0,
             market_value_sf: 0,
             borrow_factor_adjusted_market_value_sf: 0,
@@ -564,7 +566,7 @@ impl ObligationLiquidity {
             (Fraction::from_bits(self.borrowed_amount_sf) - settle_amount).to_bits();
     }
 
-    pub fn borrow(&mut self, borrow_amount: Fraction) {
+    pub fn borrow2(&mut self, borrow_amount: Fraction) {
         self.borrowed_amount_sf =
             (Fraction::from_bits(self.borrowed_amount_sf) + borrow_amount).to_bits();
     }

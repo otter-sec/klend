@@ -256,7 +256,7 @@ where
         return err!(LendingError::BorrowTooSmall);
     }
 
-    borrow_reserve.liquidity.borrow(borrow_amount_f)?;
+    borrow_reserve.liquidity.borrow2(borrow_amount_f)?;
     borrow_reserve.last_update.mark_stale();
 
     let cumulative_borrow_rate_bf =
@@ -269,7 +269,7 @@ where
             borrow_reserve.config.get_asset_tier(),
         )?;
 
-        obligation_liquidity.borrow(borrow_amount_f);
+        obligation_liquidity.borrow2(borrow_amount_f);
 
         borrow_index
     };
@@ -1552,7 +1552,7 @@ pub fn flash_borrow_reserve_liquidity(reserve: &mut Reserve, liquidity_amount: u
 
     let liquidity_amount_f = Fraction::from(liquidity_amount);
 
-    reserve.liquidity.borrow(liquidity_amount_f)?;
+    reserve.liquidity.borrow2(liquidity_amount_f)?;
     reserve.last_update.mark_stale();
 
     Ok(())

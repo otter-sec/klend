@@ -1,4 +1,4 @@
-use std::{cell::Ref, convert::TryInto};
+use std::{cell::{Ref, RefCell}, convert::TryInto};
 
 use anchor_lang::{__private::bytemuck, prelude::*, Discriminator};
 pub use scope::OraclePrices as ScopePrices;
@@ -62,8 +62,8 @@ fn get_price_account<'a>(scope_price_account: &'a AccountInfo) -> Result<Ref<'a,
     if disc_bytes != ScopePrices::discriminator() {
         return Err(LendingError::CouldNotDeserializeScope.into());
     }
-
-    Ok(Ref::map(data, |data| bytemuck::from_bytes(&data[8..])))
+    let x: &RefCell<ScopePrices> = Box::leak(Box::new(RefCell::new(ScopePrices::any())));
+    Ok(x.borrow())
 }
 
 fn get_price_usd(

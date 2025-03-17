@@ -105,8 +105,8 @@ fn process_impl(
     };
 
     let mut remaining_accounts_post_repay = {
-        let remaining_accounts = if previous_borrow_count == borrow_count_post_repay {
-            remaining_accounts.to_vec()
+        let remaining_accounts: Vec<_> = if previous_borrow_count == borrow_count_post_repay {
+            remaining_accounts.to_vec().into()
         } else {
             let referrer_to_skip = if has_referrer {
                 pda::referrer_token_state(referrer, repay_reserve_key).0
